@@ -5,7 +5,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - MONGO_URI=mongodb://host.docker.internal:27017/nest
+      - MONGO_URI= ${MONGODB_ATLAS_URI}
     depends_on:
       - mongo
   mongo:
