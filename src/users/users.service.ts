@@ -26,11 +26,11 @@ export class UsersService {
   }
 }
 
-  async findAll() {
+  async findAll(): Promise<User[]> {
     return await this.userModel.find().exec();
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<User> {
     const user = await this.userModel.findById(id).exec();
     if (!user) {
        throw new NotFoundException('Usuario no encontrado');
@@ -38,7 +38,7 @@ export class UsersService {
     return user;
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     try {
     const updatedUser= await this.userModel.findByIdAndUpdate(id, { $set: updateUserDto }, { new: true }).exec();
     if (!updatedUser) {
