@@ -5,7 +5,7 @@ import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [UsersModule,MongooseModule.forRoot('mongodb://localhost/nest')],
+  imports: [UsersModule,MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://host.docker.internal:27017/nest' )],
   controllers: [AppController],
   providers: [AppService],
 })
