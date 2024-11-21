@@ -29,7 +29,7 @@ Hacé click debajo para conocer la estructura del proyecto y los endpoints.
 
 ## [Estructura](Estructura.md)
 
-## [EndPoints](EndPoints.md)
+## [EndPoints](Endpoints.md)
 
   
 ## Project setup

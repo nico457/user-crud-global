@@ -4,21 +4,21 @@ El proyecto sigue la estructura modular de NestJS, que fomenta la separación de
 
 ```plaintext
 src/
-├── app.module.ts           # Módulo principal de la aplicación
-├── main.ts                 # Punto de entrada de la aplicación
-├── modules/                # Módulos de la aplicación
-│   ├── users/              # Módulo de usuarios
-│       ├── users.controller.ts    # Controlador del módulo de usuarios
-│       ├── users.service.ts       # Lógica de negocio del módulo de usuarios
-│       ├── users.module.ts        # Declaración del módulo de usuarios
-│       ├── dto/                   # Data Transfer Objects para validación
+├── app.module.ts           
+├── main.ts                 
+├── modules/                
+│   ├── users/              
+│       ├── users.controller.ts    
+│       ├── users.service.ts     
+│       ├── users.module.ts       
+│       ├── dto/                  
 │       │   ├── create-user.dto.ts
 │       │   └── update-user.dto.ts
-│       ├── schemas/              # Modelo de MongoDB
+│       ├── schemas/             
 │       │    └── user.schemas.ts
-│       ├── serializer/           # Respuestas de controladores
+│       ├── serializer/          
 │       │    └── user.serializer.ts    
-│       ├── tests/                # Testing
+│       ├── tests/              
 │            └── user.controller.spec.ts    
 ├── Dockerfile
 ├── docker.compose.yml   
