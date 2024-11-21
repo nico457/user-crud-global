@@ -24,7 +24,12 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+CRUD básico de usuarios.
+Hacé click debajo para conocer la estructura del proyecto y los endpoints.
+
+## [Estructura](Estructura.md)
+
+## [EndPoints](EndPoints.md)
 
   
 ## Project setup
@@ -64,7 +69,7 @@ $ npm run test:cov
 ### Backend
   - <img src="assets/nestjs.svg" width="20" height="20"/> **Nest JS**  
   
-  - <img src="assets/typescript.svg" width="20" height="20"/> **JavaScript**
+  - <img src="assets/typescript.svg" width="20" height="20"/> **TypeScript**
   - <img src="assets/swagger.svg" width="20" height="20"/> **Swagger**
   - <img src="assets/jest.svg" width="20" height="20"/> **Jest**
 
