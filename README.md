@@ -43,6 +43,11 @@ $ npm install
 ## Ejecutar el proyecto
 
 ```bash
+
+# Docker
+$ docker build -t my-nestjs-app .
+$ docker run -p 3000:3000 my-nestjs-app
+
 # development
 $ npm run start
 
