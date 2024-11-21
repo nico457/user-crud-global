@@ -31,6 +31,9 @@ export class UsersService {
   }
 
   async findOne(id: string): Promise<User> {
+    if (!this.isValidObjectId(id)) {
+      throw new NotFoundException(`El ID proporcionado no es válido.`);
+    }
     const user = await this.userModel.findById(id).exec();
     if (!user) {
        throw new NotFoundException('Usuario no encontrado');
@@ -40,6 +43,9 @@ export class UsersService {
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     try {
+      if (!this.isValidObjectId(id)) {
+        throw new NotFoundException(`El ID proporcionado no es válido.`);
+      }
     const updatedUser= await this.userModel.findByIdAndUpdate(id, { $set: updateUserDto }, { new: true }).exec();
     if (!updatedUser) {
       throw new NotFoundException('Usuario no encontrado');
@@ -59,10 +65,19 @@ export class UsersService {
   }
 
   async remove(id: string) {
+    if (!this.isValidObjectId(id)) {
+      throw new NotFoundException(`El ID proporcionado no es válido.`);
+    }
     const user = await this.userModel.findByIdAndDelete(id).exec();
     if (!user) {
       throw new NotFoundException('Usuario no encontrado');
    }
    return user;
+  }
+
+  private isValidObjectId(id: string): boolean {
+    // Utiliza el método de validación de Mongoose
+    const mongoose = require('mongoose');
+    return mongoose.Types.ObjectId.isValid(id);
   }
 }

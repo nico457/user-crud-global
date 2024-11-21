@@ -22,23 +22,25 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Descripción
 
 CRUD básico de usuarios.
 Hacé click debajo para conocer la estructura del proyecto y los endpoints.
 
+## Documentación
+Para probar el crud se recomienda ingresar a `http://localhost:3000/docs`
 ## [Estructura](Estructura.md)
 
 ## [EndPoints](Endpoints.md)
 
   
-## Project setup
+## Configuración del proyecto
 
 ```bash
 $ npm install
 ```
 
-## Compile and run the project
+## Ejecutar el proyecto
 
 ```bash
 # development
@@ -51,7 +53,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Run tests
+## Test
 
 ```bash
 # unit tests
@@ -85,6 +87,6 @@ $ npm run test:cov
 - <img src="assets/git.svg" width="20" height="20"/> **Git**  
 
 - <img src="assets/github.svg" width="20" height="20"/> **GitHub** 
-## License
+## Licencia
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
