@@ -8,7 +8,7 @@ import { ConfigModule} from '@nestjs/config';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     UsersModule,
-    MongooseModule.forRoot(process.env.MONGODB_ATLAS_URI)],
+    MongooseModule.forRoot(process.env.MONGODB_ATLAS_URI || 'mongodb://localhost/nest'),],
 
 })
 export class AppModule {}
