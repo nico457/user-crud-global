@@ -47,16 +47,28 @@ export class UsersService {
 }
 
 async findAll(query: UserQueryDto) {
-  const { q, role } = query;
+  const {
+    q,
+    role,
+    page = 1,
+    limit = 10,
+    sortBy = 'createdAt',
+    order = 'desc',
+  } = query;
 
   const userFilter: any = {};
+  if (role) userFilter.role = role;
 
-  if (role) {
-    userFilter.role = role;
-  }
+  const skip = (page - 1) * limit;
+  const sort: Record<string, 1 | -1> = {
+    [sortBy]: order === 'asc' ? 1 : -1,
+  };
 
   let users = await this.userModel
     .find(userFilter)
+    .sort(sort)          // 🔥 ordenamiento
+    .skip(skip)
+    .limit(limit)
     .populate({
       path: 'profile',
       match: q
@@ -72,7 +84,6 @@ async findAll(query: UserQueryDto) {
 
   if (q) {
     const regex = new RegExp(q, 'i');
-
     users = users.filter(
       (u) =>
         regex.test(u.username) ||
@@ -83,6 +94,7 @@ async findAll(query: UserQueryDto) {
 
   return users;
 }
+
 
   async findOne(id: string): Promise<User> {
     if (!this.isValidObjectId(id)) {
