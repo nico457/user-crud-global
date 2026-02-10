@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/users.schemas';
 import { Profile } from './schemas/profiles.schemas';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -20,8 +21,9 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
       const {nombre, apellido, edad, genero, ...userData} = createUserDto;
-      const createdUser = await this.userModel.create(userData);
-
+      const { password, ...rest } = userData;
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const createdUser = await this.userModel.create({...rest, password: hashedPassword});
       const profile = await this.profilesModel.create({
         nombre,
         apellido,
@@ -157,6 +159,11 @@ async findAll(query: UserQueryDto) {
    }
    return user;
   }
+
+  async findByEmail(email: string) {
+  return this.userModel.findOne({ email }).exec();
+}
+
 
   private isValidObjectId(id: string): boolean {
     // Utiliza el método de validación de Mongoose

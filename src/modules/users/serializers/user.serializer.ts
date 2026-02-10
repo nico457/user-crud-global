@@ -1,4 +1,4 @@
-import { Expose, Type } from "class-transformer";
+import { Exclude, Expose, Type } from "class-transformer";
 import { ProfileSerializer } from "./profile.serializer";
 export class UserSerializer{
     @Expose()
@@ -12,4 +12,6 @@ export class UserSerializer{
     @Expose()
     @Type(() => ProfileSerializer)
     profile: ProfileSerializer;
+    @Exclude()
+    password: string;
 }

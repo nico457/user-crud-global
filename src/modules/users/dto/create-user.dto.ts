@@ -27,6 +27,10 @@ export class CreateUserDto {
   @IsNotEmpty({message: 'El username no debe estar vacio'})
   username: string;
 
+ @IsString( {message: 'El password debe ser una cadena de texto'} )
+  @IsNotEmpty({message: 'El password no debe estar vacio'})
+  password: string;
+
   @IsString( {message: 'El email debe ser una cadena de texto'} )
   @IsNotEmpty({message: 'El email no debe estar vacio'})
   @IsEmail({}, {message: 'El email debe ser un email valido'})  

@@ -2,12 +2,12 @@ import { Type } from "class-transformer";
 import { IsIn, IsInt, IsOptional, IsString, Min } from "class-validator";
 
 export class UserQueryDto {
-  @IsString()
   @IsOptional()
-  q: string; 
   @IsString()
+  q: string = ''; 
   @IsOptional()
-  role: string;  
+  @IsString()
+  role: string = '';  
 
   @IsOptional()
   @Type(() => Number)
