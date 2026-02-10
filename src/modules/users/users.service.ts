@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserQueryDto } from './dto/user-query.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/users.schemas';
@@ -45,9 +46,43 @@ export class UsersService {
   }
 }
 
-  async findAll(): Promise<User[]> {
-    return await this.userModel.find().populate('profile').exec();
+async findAll(query: UserQueryDto) {
+  const { q, role } = query;
+
+  const userFilter: any = {};
+
+  if (role) {
+    userFilter.role = role;
   }
+
+  let users = await this.userModel
+    .find(userFilter)
+    .populate({
+      path: 'profile',
+      match: q
+        ? {
+            $or: [
+              { nombre: { $regex: q, $options: 'i' } },
+              { apellido: { $regex: q, $options: 'i' } },
+            ],
+          }
+        : {},
+    })
+    .exec();
+
+  if (q) {
+    const regex = new RegExp(q, 'i');
+
+    users = users.filter(
+      (u) =>
+        regex.test(u.username) ||
+        regex.test(u.email) ||
+        u.profile !== null,
+    );
+  }
+
+  return users;
+}
 
   async findOne(id: string): Promise<User> {
     if (!this.isValidObjectId(id)) {
@@ -65,11 +100,28 @@ export class UsersService {
       if (!this.isValidObjectId(id)) {
         throw new NotFoundException(`El ID proporcionado no es válido.`);
       }
-    const updatedUser= await this.userModel.findByIdAndUpdate(id, { $set: updateUserDto }, { new: true }).exec();
+    const {nombre, apellido, edad, genero, ...userData} = updateUserDto;
+    const updatedUser= await this.userModel.findByIdAndUpdate(id, { $set: userData }, { new: true }).exec();
     if (!updatedUser) {
       throw new NotFoundException('Usuario no encontrado');
     }
-    return updatedUser;
+    if (nombre || apellido || edad || genero) {
+      await this.profilesModel.findOneAndUpdate(
+        { user: updatedUser._id },
+        {
+          $set: {
+            ...(nombre && { nombre }),
+            ...(apellido && { apellido }),
+            ...(edad && { edad }),
+            ...(genero && { genero }),
+          },
+        },
+        { new: true },
+      );
+    }
+    return this.userModel
+      .findById(updatedUser._id)
+      .populate('profile');
     } catch (error) {
         if (error.code === 11000) {
           // Manejo de errores de clave duplicada

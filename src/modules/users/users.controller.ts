@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,6 +21,7 @@ import {
 import { User } from './schemas/users.schemas';
 import { plainToClass, plainToInstance } from 'class-transformer';
 import { UserSerializer } from './serializers/user.serializer';
+import { UserQueryDto } from './dto/user-query.dto';
 
 @Controller('users')
 export class UsersController {
@@ -36,8 +38,8 @@ export class UsersController {
   }
   @ApiOkResponse({ description: 'Lista de usuarios' })
   @Get()
-  async findAll(): Promise<UserSerializer[]> {
-    const data = await this.usersService.findAll();
+  async findAll(@Query() query: UserQueryDto): Promise<UserSerializer[]> {
+    const data = await this.usersService.findAll(query);
     return plainToInstance(UserSerializer, data, {
       excludeExtraneousValues: true,
     });
