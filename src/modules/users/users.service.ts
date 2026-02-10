@@ -4,15 +4,34 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/users.schemas';
+import { Profile } from './schemas/profiles.schemas';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+    constructor(
+    @InjectModel(User.name)
+    private readonly userModel: Model<User>,
+
+    @InjectModel(Profile.name)
+    private readonly profilesModel: Model<Profile>,
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
-      const createdUser = new this.userModel(createUserDto);
-      return await createdUser.save();
+      const {nombre, apellido, edad, genero, ...userData} = createUserDto;
+      const createdUser = await this.userModel.create(userData);
+
+      const profile = await this.profilesModel.create({
+        nombre,
+        apellido,
+        edad,
+        genero,
+        user: createdUser._id,
+      });
+        
+      createdUser.profile = profile._id as any;
+      await createdUser.save();
+      return this.userModel.findById(createdUser._id).populate('profile').exec();
     } catch (error) {
       if (error.code === 11000) {
         // Manejo de errores de clave duplicada
@@ -27,14 +46,14 @@ export class UsersService {
 }
 
   async findAll(): Promise<User[]> {
-    return await this.userModel.find().exec();
+    return await this.userModel.find().populate('profile').exec();
   }
 
   async findOne(id: string): Promise<User> {
     if (!this.isValidObjectId(id)) {
       throw new NotFoundException(`El ID proporcionado no es válido.`);
     }
-    const user = await this.userModel.findById(id).exec();
+    const user = await this.userModel.findById(id).populate('profile').exec();
     if (!user) {
        throw new NotFoundException('Usuario no encontrado');
     }

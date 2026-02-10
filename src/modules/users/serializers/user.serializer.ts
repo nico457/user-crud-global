@@ -1,15 +1,15 @@
-import { Expose } from "class-transformer";
+import { Expose, Type } from "class-transformer";
+import { ProfileSerializer } from "./profile.serializer";
 export class UserSerializer{
     @Expose()
     id: string;
-    @Expose()
-    nombre: string;
-    @Expose()
-    apellido: string;
     @Expose()
     username: string;
     @Expose()
     email: string;
     @Expose()
-    age: number;
+    role: string;
+    @Expose()
+    @Type(() => ProfileSerializer)
+    profile: ProfileSerializer;
 }

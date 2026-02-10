@@ -1,4 +1,6 @@
-import { IsString, IsEmail, IsInt, Min, Max, IsNotEmpty } from 'class-validator';
+import { IsString, IsEmail, IsInt, Min, Max, IsNotEmpty, IsEnum } from 'class-validator';
+import { Gender } from './gender.enum';
+import { Role } from './rol.enum';
 
 export class CreateUserDto {
 
@@ -10,6 +12,17 @@ export class CreateUserDto {
   @IsNotEmpty({message: 'El apellido no debe estar vacio'})
   apellido: string;
 
+  @IsInt()
+  @Min(18, { message: 'La edad debe ser al menos 18 años' })
+  @Max(100, { message: 'La edad no puede ser mayor a 100 años' })
+  edad: number;
+
+  @IsEnum(Gender, {
+    message: 'El género debe ser M, F u OTRO',
+  })
+  @IsNotEmpty({message: 'El género no debe estar vacio'})
+  genero: string;
+
   @IsString( {message: 'El username debe ser una cadena de texto'} )
   @IsNotEmpty({message: 'El username no debe estar vacio'})
   username: string;
@@ -19,8 +32,10 @@ export class CreateUserDto {
   @IsEmail({}, {message: 'El email debe ser un email valido'})  
   email: string;
 
-  @IsInt()
-  @Min(18, { message: 'La edad debe ser al menos 18 años' })
-  @Max(100, { message: 'La edad no puede ser mayor a 100 años' })
-  age: number;
+  @IsEnum(Role, {
+    message: 'El rol debe ser ADMIN, USER o SUBSCRIBER',
+  })
+  @IsNotEmpty({message: 'El rol no debe estar vacio'})
+  role: string;
+
 }
