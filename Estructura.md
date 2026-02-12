@@ -10,16 +10,27 @@ src/
 │   ├── users/              
 │       ├── users.controller.ts    
 │       ├── users.service.ts     
-│       ├── users.module.ts       
+│       ├── users.module.ts
+│       ├── profiles.module.ts
+│       ├── auth.controller.ts
+│       ├── auth.service.ts  
+│       ├── auth.module.ts  
+
 │       ├── dto/                  
 │       │   ├── create-user.dto.ts
+│       │   └── gender-enum.ts
+│       │   └── login.dto.ts
+│       │   └── rol.enum.ts
 │       │   └── update-user.dto.ts
+│       │   └── user-query.dto.ts
 │       ├── schemas/             
 │       │    └── user.schemas.ts
-│       ├── serializer/          
+│       │    └── profile.schemas.ts
+│       ├── serializer/     
+│       │    └── profile.serializer.ts         
 │       │    └── user.serializer.ts    
 │       ├── tests/              
-│            └── user.controller.spec.ts    
+│            └── user.controller.spec.ts   
 ├── Dockerfile
 ├── docker.compose.yml   
 ├── nest-cli.json 

@@ -68,7 +68,7 @@ async findAll(query: UserQueryDto) {
 
   let users = await this.userModel
     .find(userFilter)
-    .sort(sort)          // 🔥 ordenamiento
+    .sort(sort) 
     .skip(skip)
     .limit(limit)
     .populate({
